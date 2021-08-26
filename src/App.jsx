@@ -3,11 +3,14 @@ import SideListItem from './components/SideListItem'
 import { CRIPTO_LIST } from './constants'
 
 import MainDetail from './components/MainDetail'
+import NewsCard from './components/NewsCard'
+import NewsFeed from './components/NewsFeed'
 
 function App() {
   // This piece of state keeps the id from the selected coin to be displayed in the MainDetail component
   const [selectedCripto, setSelectedCripto] = useState(null)
   const [coins, setCoins] = useState([])
+  console.log('state: ', {coins, selectedCripto})
 
   // This function gives you whether a coin has been selected or not
   // You will need this for the SideListItem component
@@ -27,18 +30,24 @@ function App() {
     <>
       <aside className="side-list">
         <ul>
-          {coins.map(coin => {
+          {coins.map((coin, index) => {
             return (
-              <SideListItem item={coin} isSelectedCripto={isSelectedCripto} />
+              <SideListItem
+              key={index}
+               item={coin}
+                isSelectedCripto={isSelectedCripto}
+                selectCripto={selectedCripto}
+                 />
             )
           })}
         </ul>
       </aside>
       <main className="main-detail">
-        {selectedCripto
-          ? 'Create the main detail component here'
-          : 'Select a coin bro!'}
-        {/* News feed component needs to go here */}
+        {selectedCripto ? (
+        <MainDetail coins={selectedCripto} />
+         ) :( 'Select a coin bro!'
+         )}
+         <NewsFeed selectedCripto={selectedCripto} />
       </main>
     </>
   )
